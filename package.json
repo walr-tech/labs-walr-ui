@@ -1,0 +1,49 @@
+{
+  "name": "@walr-labs/ui",
+  "version": "1.0.0",
+  "description": "Shared UI components and design system for Walr Labs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles/globals.css": "./dist/styles/globals.css",
+    "./tailwind.preset": "./tailwind.preset.js"
+  },
+  "files": [
+    "dist",
+    "tailwind.preset.js"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5"
+  },
+  "keywords": ["walr", "ui", "design-system", "react", "components"],
+  "license": "UNLICENSED",
+  "private": false
+}
+
+

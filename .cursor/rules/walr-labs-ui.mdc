@@ -1,0 +1,62 @@
+---
+description: Instructions for AI agents working on @walr-labs/ui
+globs: **/*
+alwaysApply: true
+---
+
+# @walr-labs/ui - Agent Instructions
+
+## Package Overview
+
+This is the shared UI component library for Walr AI Labs applications.
+
+## Structure
+
+```
+src/
+├── components/
+│   ├── ui/           # Base shadcn-style components
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   └── avatar.tsx
+│   └── Header.tsx    # Shared header component
+├── lib/
+│   └── utils.ts      # cn() utility
+├── styles/
+│   └── globals.css   # Theme CSS variables
+└── index.ts          # Package exports
+```
+
+## Development Workflow
+
+1. Make changes to components
+2. Build: `npm run build`
+3. Test locally in a consumer app (use `file:../labs-walr-ui`)
+4. Commit and tag: `git tag v1.x.x`
+5. Push: `git push origin main --tags`
+
+## Adding New Components
+
+1. Create component in `src/components/ui/`
+2. Export from `src/components/ui/index.ts`
+3. Export from `src/index.ts`
+4. Rebuild and test
+
+## Theme Variables
+
+All colors use RGB values for alpha support:
+
+```css
+--primary: 6 182 212;  /* Cyan */
+--background: 9 9 11;  /* Near black */
+--card: 24 24 27;      /* Zinc-900 */
+```
+
+Usage in components: `bg-primary`, `text-foreground`, etc.
+
+## Important Notes
+
+- This package is consumed via GitHub, not npm
+- Version tags control which version apps use
+- Breaking changes require major version bump
+- Always test in consumer app before releasing
