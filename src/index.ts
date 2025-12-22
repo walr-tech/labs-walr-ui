@@ -1,5 +1,6 @@
 // Components
 export { Header, type HeaderProps } from './components/Header'
+export { BackNav, type BackNavProps } from './components/BackNav'
 
 // UI Components
 export {

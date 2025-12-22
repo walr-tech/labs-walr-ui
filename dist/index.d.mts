@@ -10,6 +10,18 @@ interface HeaderProps {
 }
 declare function Header({ userName, userEmail, userImage, onSignOut }: HeaderProps): react_jsx_runtime.JSX.Element;
 
+interface BackNavProps {
+    href: string;
+    label?: string;
+    className?: string;
+}
+/**
+ * Back navigation bar for lab apps (local dev navigation).
+ * In production with microfrontends, the shell provides the header.
+ * In local dev, this provides a simple back link.
+ */
+declare function BackNav({ href, label, className }: BackNavProps): react_jsx_runtime.JSX.Element;
+
 declare const Card: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>>;
 declare const CardHeader: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>>;
 declare const CardTitle: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>>;
@@ -29,4 +41,4 @@ declare const AvatarFallback: React.ForwardRefExoticComponent<React.HTMLAttribut
 
 declare function cn(...inputs: ClassValue[]): string;
 
-export { Avatar, AvatarFallback, AvatarImage, Button, type ButtonProps, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Header, type HeaderProps, cn };
+export { Avatar, AvatarFallback, AvatarImage, BackNav, type BackNavProps, Button, type ButtonProps, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Header, type HeaderProps, cn };

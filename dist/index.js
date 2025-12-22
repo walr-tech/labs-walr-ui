@@ -33,6 +33,7 @@ __export(index_exports, {
   Avatar: () => Avatar,
   AvatarFallback: () => AvatarFallback,
   AvatarImage: () => AvatarImage,
+  BackNav: () => BackNav,
   Button: () => Button,
   Card: () => Card,
   CardContent: () => CardContent,
@@ -125,10 +126,27 @@ function Header({ userName, userEmail, userImage, onSignOut }) {
   ] }) });
 }
 
+// src/components/BackNav.tsx
+var import_lucide_react2 = require("lucide-react");
+var import_jsx_runtime3 = require("react/jsx-runtime");
+function BackNav({ href, label = "Back to Walr Labs", className = "" }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: `border-b border-border bg-card/50 px-6 py-3 ${className}`, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
+    "a",
+    {
+      href,
+      className: "inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_lucide_react2.ArrowLeft, { className: "h-4 w-4" }),
+        label
+      ]
+    }
+  ) });
+}
+
 // src/components/ui/card.tsx
 var React2 = __toESM(require("react"));
-var import_jsx_runtime3 = require("react/jsx-runtime");
-var Card = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+var import_jsx_runtime4 = require("react/jsx-runtime");
+var Card = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
   "div",
   {
     ref,
@@ -140,7 +158,7 @@ var Card = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (
   }
 ));
 Card.displayName = "Card";
-var CardHeader = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+var CardHeader = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
   "div",
   {
     ref,
@@ -149,7 +167,7 @@ var CardHeader = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE_
   }
 ));
 CardHeader.displayName = "CardHeader";
-var CardTitle = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+var CardTitle = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
   "div",
   {
     ref,
@@ -158,7 +176,7 @@ var CardTitle = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 CardTitle.displayName = "CardTitle";
-var CardDescription = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+var CardDescription = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
   "div",
   {
     ref,
@@ -167,9 +185,9 @@ var CardDescription = React2.forwardRef(({ className, ...props }, ref) => /* @__
   }
 ));
 CardDescription.displayName = "CardDescription";
-var CardContent = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { ref, className: cn("p-6 pt-0", className), ...props }));
+var CardContent = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { ref, className: cn("p-6 pt-0", className), ...props }));
 CardContent.displayName = "CardContent";
-var CardFooter = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+var CardFooter = React2.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
   "div",
   {
     ref,
@@ -181,10 +199,10 @@ CardFooter.displayName = "CardFooter";
 
 // src/components/ui/button.tsx
 var React3 = __toESM(require("react"));
-var import_jsx_runtime4 = require("react/jsx-runtime");
+var import_jsx_runtime5 = require("react/jsx-runtime");
 var Button = React3.forwardRef(
   ({ className, variant = "default", size = "default", ...props }, ref) => {
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
       "button",
       {
         className: cn(
@@ -212,6 +230,7 @@ Button.displayName = "Button";
   Avatar,
   AvatarFallback,
   AvatarImage,
+  BackNav,
   Button,
   Card,
   CardContent,
