@@ -1,5 +1,8 @@
+"use client"
+
 import { FlaskConical } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { ThemeToggle } from "./ThemeToggle"
 
 export interface HeaderProps {
   userName?: string
@@ -36,12 +39,16 @@ export function Header({ userName, userEmail, userImage, onSignOut }: HeaderProp
           </span>
         </div>
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           {userName && (
             <span className="hidden text-sm text-muted-foreground sm:inline">
               {userName}
             </span>
           )}
-          <Avatar className="cursor-pointer" onClick={onSignOut}>
+          <Avatar 
+            className={onSignOut ? "cursor-pointer" : undefined} 
+            onClick={onSignOut}
+          >
             {userImage && <AvatarImage src={userImage} alt={userName || "User"} />}
             <AvatarFallback className="bg-muted text-muted-foreground">
               {initials}

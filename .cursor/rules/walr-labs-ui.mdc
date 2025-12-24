@@ -29,11 +29,36 @@ src/
 
 ## Development Workflow
 
-1. Make changes to components
-2. Build: `npm run build`
-3. Test locally in a consumer app (use `file:../labs-walr-ui`)
-4. Commit and tag: `git tag v1.x.x`
-5. Push: `git push origin main --tags`
+### Testing Changes Locally (yalc)
+
+Use **yalc** to test changes in consumer apps. Do NOT use `file:` or `pnpm link` - they create symlinks that don't work with Next.js Turbopack.
+
+```bash
+# In labs-walr-ui: build and publish
+pnpm run build
+yalc publish
+
+# In consumer app: add from yalc
+yalc add @walr-labs/ui
+
+# After making UI changes:
+cd labs-walr-ui
+pnpm run build && yalc push
+# Then refresh browser
+
+# Before committing consumer app:
+yalc remove @walr-labs/ui
+pnpm install
+```
+
+> Consumer apps have husky pre-commit hooks that block commits with yalc references.
+
+### Releasing
+
+1. Make changes and commit
+2. Update version in package.json  
+3. Tag: `git tag v1.x.x`
+4. Push: `git push origin main --tags`
 
 ## Adding New Components
 

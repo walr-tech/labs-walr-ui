@@ -5,14 +5,14 @@ Shared design system and UI components for Walr AI Labs applications.
 ## Installation
 
 ```bash
-npm install github:walr-tech/labs-walr-ui#v1.0.0
+npm install github:walr-tech/labs-walr-ui#v1.1.0
 ```
 
 Or add to package.json:
 ```json
 {
   "dependencies": {
-    "@walr-labs/ui": "github:walr-tech/labs-walr-ui#v1.0.0"
+    "@walr-labs/ui": "github:walr-tech/labs-walr-ui#v1.1.0"
   }
 }
 ```
@@ -38,9 +38,16 @@ In your `globals.css`:
 | Component | Description |
 |-----------|-------------|
 | `Header` | Shared navigation header with logo and user avatar |
-| `Button` | Styled button with variants (default, outline, ghost) |
-| `Card` | Card container with CardHeader, CardContent, CardFooter |
-| `Avatar` | User avatar with image and fallback support |
+| `BackNav` | Back navigation bar for lab apps (local dev navigation) |
+| `ThemeProvider` | Wrapper for next-themes ThemeProvider |
+| `ThemeToggle` | Theme toggle button (light/dark mode) |
+| `Button` | Styled button with variants (default, outline, ghost, destructive, secondary, link) |
+| `Card` | Card container with CardHeader, CardContent, CardFooter, CardTitle, CardDescription, CardAction |
+| `Avatar` | User avatar with image and fallback support (AvatarImage, AvatarFallback) |
+| `Badge` | Badge component with variants (default, secondary, destructive, outline) |
+| `Input` | Styled input field with focus states and validation support |
+| `Label` | Accessible label component (Radix UI based) |
+| `Select` | Full-featured select dropdown with SelectTrigger, SelectContent, SelectItem, SelectGroup, SelectLabel, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton, SelectValue |
 
 ### Utilities
 
@@ -69,6 +76,46 @@ npm run build
 # Watch mode
 npm run dev
 ```
+
+## Local Development with Consumer Apps
+
+Use **yalc** to test changes locally before releasing. This copies built files (not symlinks) which works with Next.js Turbopack.
+
+### Setup (one-time)
+```bash
+npm install -g yalc
+```
+
+### Workflow
+```bash
+# 1. Build and publish to local yalc store
+cd labs-walr-ui
+pnpm run build
+yalc publish
+
+# 2. Add to consumer app
+cd ../labs-sample-pricing-assist  # or any consumer
+yalc add @walr-labs/ui
+
+# 3. Start dev servers
+pnpm run dev
+```
+
+### After Making UI Changes
+```bash
+cd labs-walr-ui
+pnpm run build && yalc push
+# Refresh browser to see changes
+```
+
+### Before Committing Consumer App
+```bash
+cd labs-sample-pricing-assist
+yalc remove @walr-labs/ui
+pnpm install
+```
+
+> **Note:** Consumer apps have a husky pre-commit hook that blocks commits with yalc references.
 
 ## Releasing New Versions
 

@@ -1,10 +1,14 @@
 import { defineConfig } from 'tsup'
-import { copyFileSync, mkdirSync } from 'fs'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: {
+    index: 'src/index.ts',
+    'styles/globals': 'src/styles/globals.css',
+  },
   format: ['cjs', 'esm'],
-  dts: true,
+  dts: {
+    entry: 'src/index.ts', // Only generate types for TS files
+  },
   splitting: false,
   sourcemap: true,
   clean: true,
@@ -12,11 +16,8 @@ export default defineConfig({
   loader: {
     '.css': 'copy',
   },
-  onSuccess: async () => {
-    // Ensure styles directory exists
-    mkdirSync('dist/styles', { recursive: true })
-    // Copy CSS file
-    copyFileSync('src/styles/globals.css', 'dist/styles/globals.css')
+  banner: {
+    js: '"use client";',
   },
 })
 

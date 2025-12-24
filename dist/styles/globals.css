@@ -1,57 +1,94 @@
+/* Configure Tailwind v4 to use class-based dark mode (not media query) */
+@variant dark (&:is(.dark *));
+
 @layer base {
   :root {
-    --background: 9 9 11;
-    --foreground: 250 250 250;
-    --card: 24 24 27;
-    --card-foreground: 250 250 250;
-    --popover: 24 24 27;
-    --popover-foreground: 250 250 250;
-    --primary: 6 182 212;
-    --primary-foreground: 9 9 11;
-    --secondary: 39 39 42;
-    --secondary-foreground: 250 250 250;
-    --muted: 39 39 42;
-    --muted-foreground: 161 161 170;
-    --accent: 39 39 42;
-    --accent-foreground: 250 250 250;
-    --destructive: 239 68 68;
-    --destructive-foreground: 250 250 250;
-    --border: 39 39 42;
-    --input: 39 39 42;
-    --ring: 6 182 212;
+    /* Light mode - OKLCH colors (space-separated values for alpha support) */
+    --background: 0.99 0 0;
+    --foreground: 0.15 0 0;
+    --card: 1 0 0;
+    --card-foreground: 0.15 0 0;
+    --popover: 1 0 0;
+    --popover-foreground: 0.15 0 0;
+    --primary: 0.6 0.18 200;
+    --primary-foreground: 0.99 0 0;
+    --secondary: 0.96 0 0;
+    --secondary-foreground: 0.15 0 0;
+    --muted: 0.96 0 0;
+    --muted-foreground: 0.5 0 0;
+    --accent: 0.96 0 0;
+    --accent-foreground: 0.15 0 0;
+    --destructive: 0.6 0.22 25;
+    --destructive-foreground: 0.99 0 0;
+    --border: 0.93 0 0;
+    --input: 0.93 0 0;
+    --ring: 0.6 0.18 200;
     --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark mode - OKLCH colors (cyan primary: rgb(6, 182, 212) ≈ oklch(0.7 0.15 200)) */
+    --background: 0.145 0 0;
+    --foreground: 0.985 0 0;
+    --card: 0.21 0 0;
+    --card-foreground: 0.985 0 0;
+    --popover: 0.21 0 0;
+    --popover-foreground: 0.985 0 0;
+    --primary: 0.7 0.15 200;
+    --primary-foreground: 0.145 0 0;
+    --secondary: 0.25 0 0;
+    --secondary-foreground: 0.985 0 0;
+    --muted: 0.25 0 0;
+    --muted-foreground: 0.708 0 0;
+    --accent: 0.3 0 0;
+    --accent-foreground: 0.985 0 0;
+    --destructive: 0.65 0.2 25;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.25 0 0;
+    --input: 0.25 0 0;
+    --ring: 0.7 0.15 200;
   }
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground;
+    background-color: oklch(var(--background));
+    color: oklch(var(--foreground));
+  }
+
+  /* Prevent layout shift when Radix Select opens (overrides scroll lock) */
+  html {
+    overflow-y: scroll !important;
+  }
+
+  body[data-scroll-locked] {
+    overflow: auto !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
 /* Tailwind v4 theme configuration */
 @theme inline {
-  --color-background: rgb(var(--background));
-  --color-foreground: rgb(var(--foreground));
-  --color-card: rgb(var(--card));
-  --color-card-foreground: rgb(var(--card-foreground));
-  --color-popover: rgb(var(--popover));
-  --color-popover-foreground: rgb(var(--popover-foreground));
-  --color-primary: rgb(var(--primary));
-  --color-primary-foreground: rgb(var(--primary-foreground));
-  --color-secondary: rgb(var(--secondary));
-  --color-secondary-foreground: rgb(var(--secondary-foreground));
-  --color-muted: rgb(var(--muted));
-  --color-muted-foreground: rgb(var(--muted-foreground));
-  --color-accent: rgb(var(--accent));
-  --color-accent-foreground: rgb(var(--accent-foreground));
-  --color-destructive: rgb(var(--destructive));
-  --color-destructive-foreground: rgb(var(--destructive-foreground));
-  --color-border: rgb(var(--border));
-  --color-input: rgb(var(--input));
-  --color-ring: rgb(var(--ring));
+  --color-background: oklch(var(--background));
+  --color-foreground: oklch(var(--foreground));
+  --color-card: oklch(var(--card));
+  --color-card-foreground: oklch(var(--card-foreground));
+  --color-popover: oklch(var(--popover));
+  --color-popover-foreground: oklch(var(--popover-foreground));
+  --color-primary: oklch(var(--primary));
+  --color-primary-foreground: oklch(var(--primary-foreground));
+  --color-secondary: oklch(var(--secondary));
+  --color-secondary-foreground: oklch(var(--secondary-foreground));
+  --color-muted: oklch(var(--muted));
+  --color-muted-foreground: oklch(var(--muted-foreground));
+  --color-accent: oklch(var(--accent));
+  --color-accent-foreground: oklch(var(--accent-foreground));
+  --color-destructive: oklch(var(--destructive));
+  --color-destructive-foreground: oklch(var(--destructive-foreground));
+  --color-border: oklch(var(--border));
+  --color-input: oklch(var(--input));
+  --color-ring: oklch(var(--ring));
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
-
