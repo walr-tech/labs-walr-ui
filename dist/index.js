@@ -66,6 +66,7 @@ __export(src_exports, {
 module.exports = __toCommonJS(src_exports);
 
 // src/components/Header.tsx
+var import_link = __toESM(require("next/link"));
 var import_lucide_react2 = require("lucide-react");
 
 // src/components/ui/avatar.tsx
@@ -213,24 +214,40 @@ function getInitials(name, email) {
   }
   return "U";
 }
-function Header({ userName, userEmail, userImage, onSignOut }) {
+function Header({
+  userName,
+  userEmail,
+  userImage,
+  onSignOut,
+  signOutUrl,
+  shellUrl
+}) {
   const initials = getInitials(userName, userEmail);
+  const handleAvatarClick = () => {
+    if (onSignOut) {
+      onSignOut();
+    } else if (signOutUrl) {
+      window.location.href = signOutUrl;
+    }
+  };
+  const isClickable = !!(onSignOut || signOutUrl);
+  const logoContent = /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex items-center gap-2", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_lucide_react2.FlaskConical, { className: "h-5 w-5 text-primary" }),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { className: "text-lg font-semibold", children: [
+      "Walr ",
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "text-primary", children: "Labs" })
+    ] })
+  ] });
   return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("header", { className: "fixed top-0 left-0 right-0 z-50 h-16 border-b border-border bg-card/80 backdrop-blur-sm", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "container mx-auto flex h-full items-center justify-between px-6", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex items-center gap-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_lucide_react2.FlaskConical, { className: "h-5 w-5 text-primary" }),
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { className: "text-lg font-semibold", children: [
-        "Walr ",
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "text-primary", children: "Labs" })
-      ] })
-    ] }),
+    shellUrl ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_link.default, { href: shellUrl, className: "hover:opacity-80 transition-opacity", children: logoContent }) : logoContent,
     /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex items-center gap-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(ThemeToggle, {}),
       userName && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "hidden text-sm text-muted-foreground sm:inline", children: userName }),
       /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
         Avatar,
         {
-          className: onSignOut ? "cursor-pointer" : void 0,
-          onClick: onSignOut,
+          className: isClickable ? "cursor-pointer" : void 0,
+          onClick: isClickable ? handleAvatarClick : void 0,
           children: [
             userImage && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(AvatarImage, { src: userImage, alt: userName || "User" }),
             /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(AvatarFallback, { className: "bg-muted text-muted-foreground", children: initials })

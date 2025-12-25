@@ -1,6 +1,7 @@
 "use client";
 
 // src/components/Header.tsx
+import Link from "next/link";
 import { FlaskConical } from "lucide-react";
 
 // src/components/ui/avatar.tsx
@@ -148,24 +149,40 @@ function getInitials(name, email) {
   }
   return "U";
 }
-function Header({ userName, userEmail, userImage, onSignOut }) {
+function Header({
+  userName,
+  userEmail,
+  userImage,
+  onSignOut,
+  signOutUrl,
+  shellUrl
+}) {
   const initials = getInitials(userName, userEmail);
+  const handleAvatarClick = () => {
+    if (onSignOut) {
+      onSignOut();
+    } else if (signOutUrl) {
+      window.location.href = signOutUrl;
+    }
+  };
+  const isClickable = !!(onSignOut || signOutUrl);
+  const logoContent = /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
+    /* @__PURE__ */ jsx4(FlaskConical, { className: "h-5 w-5 text-primary" }),
+    /* @__PURE__ */ jsxs("span", { className: "text-lg font-semibold", children: [
+      "Walr ",
+      /* @__PURE__ */ jsx4("span", { className: "text-primary", children: "Labs" })
+    ] })
+  ] });
   return /* @__PURE__ */ jsx4("header", { className: "fixed top-0 left-0 right-0 z-50 h-16 border-b border-border bg-card/80 backdrop-blur-sm", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto flex h-full items-center justify-between px-6", children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
-      /* @__PURE__ */ jsx4(FlaskConical, { className: "h-5 w-5 text-primary" }),
-      /* @__PURE__ */ jsxs("span", { className: "text-lg font-semibold", children: [
-        "Walr ",
-        /* @__PURE__ */ jsx4("span", { className: "text-primary", children: "Labs" })
-      ] })
-    ] }),
+    shellUrl ? /* @__PURE__ */ jsx4(Link, { href: shellUrl, className: "hover:opacity-80 transition-opacity", children: logoContent }) : logoContent,
     /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-4", children: [
       /* @__PURE__ */ jsx4(ThemeToggle, {}),
       userName && /* @__PURE__ */ jsx4("span", { className: "hidden text-sm text-muted-foreground sm:inline", children: userName }),
       /* @__PURE__ */ jsxs(
         Avatar,
         {
-          className: onSignOut ? "cursor-pointer" : void 0,
-          onClick: onSignOut,
+          className: isClickable ? "cursor-pointer" : void 0,
+          onClick: isClickable ? handleAvatarClick : void 0,
           children: [
             userImage && /* @__PURE__ */ jsx4(AvatarImage, { src: userImage, alt: userName || "User" }),
             /* @__PURE__ */ jsx4(AvatarFallback, { className: "bg-muted text-muted-foreground", children: initials })

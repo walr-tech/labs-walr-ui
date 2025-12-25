@@ -12,8 +12,10 @@ interface HeaderProps {
     userEmail?: string;
     userImage?: string;
     onSignOut?: () => void;
+    signOutUrl?: string;
+    shellUrl?: string;
 }
-declare function Header({ userName, userEmail, userImage, onSignOut }: HeaderProps): react_jsx_runtime.JSX.Element;
+declare function Header({ userName, userEmail, userImage, onSignOut, signOutUrl, shellUrl }: HeaderProps): react_jsx_runtime.JSX.Element;
 
 interface BackNavProps {
     href: string;
