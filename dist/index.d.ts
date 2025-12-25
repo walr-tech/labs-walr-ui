@@ -14,8 +14,9 @@ interface HeaderProps {
     onSignOut?: () => void;
     signOutUrl?: string;
     shellUrl?: string;
+    disableAutoFetch?: boolean;
 }
-declare function Header({ userName, userEmail, userImage, onSignOut, signOutUrl, shellUrl }: HeaderProps): react_jsx_runtime.JSX.Element;
+declare function Header({ userName, userEmail, userImage, onSignOut, signOutUrl, shellUrl, disableAutoFetch }: HeaderProps): react_jsx_runtime.JSX.Element;
 
 interface BackNavProps {
     href: string;

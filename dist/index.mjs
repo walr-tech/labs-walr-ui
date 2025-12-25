@@ -1,6 +1,7 @@
 "use client";
 
 // src/components/Header.tsx
+import { useEffect as useEffect2, useState as useState2 } from "react";
 import Link from "next/link";
 import { FlaskConical } from "lucide-react";
 
@@ -155,17 +156,53 @@ function Header({
   userImage,
   onSignOut,
   signOutUrl,
-  shellUrl
+  shellUrl,
+  disableAutoFetch = false
 }) {
-  const initials = getInitials(userName, userEmail);
+  const detectedShellUrl = shellUrl ?? (typeof window !== "undefined" ? process.env.NEXT_PUBLIC_SHELL_URL || window.location.origin : process.env.NEXT_PUBLIC_SHELL_URL || "/");
+  const detectedSignOutUrl = signOutUrl ?? `${detectedShellUrl}/api/auth/signout`;
+  const [fetchedUser, setFetchedUser] = useState2(null);
+  const [isLoadingUser, setIsLoadingUser] = useState2(false);
+  useEffect2(() => {
+    if (userName || disableAutoFetch) {
+      return;
+    }
+    if (typeof window === "undefined") {
+      return;
+    }
+    setIsLoadingUser(true);
+    const apiUrl = `${detectedShellUrl}/api/user`;
+    fetch(apiUrl, {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to fetch user info");
+      }
+      return res.json();
+    }).then((data) => {
+      setFetchedUser(data);
+    }).catch((error) => {
+      console.warn("Failed to fetch user info:", error);
+      setFetchedUser({ name: null, email: null, image: null });
+    }).finally(() => {
+      setIsLoadingUser(false);
+    });
+  }, [userName, disableAutoFetch, detectedShellUrl]);
+  const displayName = userName ?? fetchedUser?.name ?? void 0;
+  const displayEmail = userEmail ?? fetchedUser?.email ?? void 0;
+  const displayImage = userImage ?? fetchedUser?.image ?? void 0;
+  const initials = getInitials(displayName, displayEmail);
   const handleAvatarClick = () => {
     if (onSignOut) {
       onSignOut();
-    } else if (signOutUrl) {
-      window.location.href = signOutUrl;
+    } else if (detectedSignOutUrl) {
+      window.location.href = detectedSignOutUrl;
     }
   };
-  const isClickable = !!(onSignOut || signOutUrl);
+  const isClickable = !!(onSignOut || detectedSignOutUrl);
   const logoContent = /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
     /* @__PURE__ */ jsx4(FlaskConical, { className: "h-5 w-5 text-primary" }),
     /* @__PURE__ */ jsxs("span", { className: "text-lg font-semibold", children: [
@@ -174,17 +211,17 @@ function Header({
     ] })
   ] });
   return /* @__PURE__ */ jsx4("header", { className: "fixed top-0 left-0 right-0 z-50 h-16 border-b border-border bg-card/80 backdrop-blur-sm", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto flex h-full items-center justify-between px-6", children: [
-    shellUrl ? /* @__PURE__ */ jsx4(Link, { href: shellUrl, className: "hover:opacity-80 transition-opacity", children: logoContent }) : logoContent,
+    detectedShellUrl ? /* @__PURE__ */ jsx4(Link, { href: detectedShellUrl, className: "hover:opacity-80 transition-opacity", children: logoContent }) : logoContent,
     /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-4", children: [
       /* @__PURE__ */ jsx4(ThemeToggle, {}),
-      userName && /* @__PURE__ */ jsx4("span", { className: "hidden text-sm text-muted-foreground sm:inline", children: userName }),
+      displayName && /* @__PURE__ */ jsx4("span", { className: "hidden text-sm text-muted-foreground sm:inline", children: displayName }),
       /* @__PURE__ */ jsxs(
         Avatar,
         {
           className: isClickable ? "cursor-pointer" : void 0,
           onClick: isClickable ? handleAvatarClick : void 0,
           children: [
-            userImage && /* @__PURE__ */ jsx4(AvatarImage, { src: userImage, alt: userName || "User" }),
+            displayImage && /* @__PURE__ */ jsx4(AvatarImage, { src: displayImage, alt: displayName || "User" }),
             /* @__PURE__ */ jsx4(AvatarFallback, { className: "bg-muted text-muted-foreground", children: initials })
           ]
         }
