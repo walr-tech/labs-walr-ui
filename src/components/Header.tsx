@@ -55,8 +55,16 @@ export function Header({
   // Auto-construct sign-out URL
   const detectedSignOutUrl = signOutUrl ?? `${detectedShellUrl}/api/auth/signout`
 
-  // State for auto-fetched user info
-  const [fetchedUser, setFetchedUser] = useState<UserInfo | null>(null)
+  // State for auto-fetched user info with localStorage cache
+  const [fetchedUser, setFetchedUser] = useState<UserInfo | null>(() => {
+    if (typeof window === 'undefined') return null
+    try {
+      const cached = localStorage.getItem('walr-labs-user-cache')
+      return cached ? JSON.parse(cached) : null
+    } catch {
+      return null
+    }
+  })
   const [isLoadingUser, setIsLoadingUser] = useState(false)
 
   // Auto-fetch user info if not provided and auto-fetch is enabled
@@ -69,6 +77,18 @@ export function Header({
     // Skip on server-side
     if (typeof window === 'undefined') {
       return
+    }
+
+    // Load cached data immediately if available and not already loaded
+    if (!fetchedUser) {
+      try {
+        const cached = localStorage.getItem('walr-labs-user-cache')
+        if (cached) {
+          setFetchedUser(JSON.parse(cached))
+        }
+      } catch {
+        // Ignore cache errors
+      }
     }
 
     setIsLoadingUser(true)
@@ -88,6 +108,12 @@ export function Header({
       })
       .then((data: UserInfo) => {
         setFetchedUser(data)
+        // Cache the fresh data
+        try {
+          localStorage.setItem('walr-labs-user-cache', JSON.stringify(data))
+        } catch {
+          // Ignore storage errors (quota exceeded, etc.)
+        }
       })
       .catch((error) => {
         // Graceful fallback - just don't show user info
@@ -97,7 +123,7 @@ export function Header({
       .finally(() => {
         setIsLoadingUser(false)
       })
-  }, [userName, disableAutoFetch, detectedShellUrl])
+  }, [userName, disableAutoFetch, detectedShellUrl, fetchedUser])
 
   // Use provided props or fall back to fetched user info
   const displayName = userName ?? fetchedUser?.name ?? undefined

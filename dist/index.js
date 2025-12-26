@@ -226,7 +226,15 @@ function Header({
 }) {
   const detectedShellUrl = shellUrl ?? (typeof window !== "undefined" ? process.env.NEXT_PUBLIC_SHELL_URL || window.location.origin : process.env.NEXT_PUBLIC_SHELL_URL || "/");
   const detectedSignOutUrl = signOutUrl ?? `${detectedShellUrl}/api/auth/signout`;
-  const [fetchedUser, setFetchedUser] = (0, import_react.useState)(null);
+  const [fetchedUser, setFetchedUser] = (0, import_react.useState)(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const cached = localStorage.getItem("walr-labs-user-cache");
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  });
   const [isLoadingUser, setIsLoadingUser] = (0, import_react.useState)(false);
   (0, import_react.useEffect)(() => {
     if (userName || disableAutoFetch) {
@@ -234,6 +242,15 @@ function Header({
     }
     if (typeof window === "undefined") {
       return;
+    }
+    if (!fetchedUser) {
+      try {
+        const cached = localStorage.getItem("walr-labs-user-cache");
+        if (cached) {
+          setFetchedUser(JSON.parse(cached));
+        }
+      } catch {
+      }
     }
     setIsLoadingUser(true);
     const apiUrl = `${detectedShellUrl}/api/user`;
@@ -249,13 +266,17 @@ function Header({
       return res.json();
     }).then((data) => {
       setFetchedUser(data);
+      try {
+        localStorage.setItem("walr-labs-user-cache", JSON.stringify(data));
+      } catch {
+      }
     }).catch((error) => {
       console.warn("Failed to fetch user info:", error);
       setFetchedUser({ name: null, email: null, image: null });
     }).finally(() => {
       setIsLoadingUser(false);
     });
-  }, [userName, disableAutoFetch, detectedShellUrl]);
+  }, [userName, disableAutoFetch, detectedShellUrl, fetchedUser]);
   const displayName = userName ?? fetchedUser?.name ?? void 0;
   const displayEmail = userEmail ?? fetchedUser?.email ?? void 0;
   const displayImage = userImage ?? fetchedUser?.image ?? void 0;
