@@ -159,12 +159,24 @@ function Header({
   shellUrl,
   disableAutoFetch = false
 }) {
+  if (typeof window !== "undefined") {
+    fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:entry", message: "Header component props", data: { userName, userEmail, userImage, shellUrl, signOutUrl, disableAutoFetch, env_shell_url: process.env.NEXT_PUBLIC_SHELL_URL, window_origin: window.location.origin }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "A,C,E" }) }).catch(() => {
+    });
+  }
   const detectedShellUrl = shellUrl ?? (typeof window !== "undefined" ? process.env.NEXT_PUBLIC_SHELL_URL || window.location.origin : process.env.NEXT_PUBLIC_SHELL_URL || "/");
   const detectedSignOutUrl = signOutUrl ?? `${detectedShellUrl}/api/auth/signout`;
+  if (typeof window !== "undefined") {
+    fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:urls_detected", message: "Detected URLs", data: { detectedShellUrl, detectedSignOutUrl }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "A" }) }).catch(() => {
+    });
+  }
   const [fetchedUser, setFetchedUser] = useState2(null);
   const [isLoadingUser, setIsLoadingUser] = useState2(false);
   useEffect2(() => {
+    fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:useEffect_entry", message: "useEffect triggered", data: { userName, disableAutoFetch, typeof_window: typeof window }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "C,E" }) }).catch(() => {
+    });
     if (userName || disableAutoFetch) {
+      fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:useEffect_skipped", message: "Fetch skipped due to conditions", data: { userName, disableAutoFetch }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "C" }) }).catch(() => {
+      });
       return;
     }
     if (typeof window === "undefined") {
@@ -172,19 +184,27 @@ function Header({
     }
     setIsLoadingUser(true);
     const apiUrl = `${detectedShellUrl}/api/user`;
+    fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:fetch_start", message: "Starting fetch", data: { apiUrl }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "A,B,D" }) }).catch(() => {
+    });
     fetch(apiUrl, {
       credentials: "include",
       headers: {
         "Content-Type": "application/json"
       }
     }).then((res) => {
+      fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:fetch_response", message: "Fetch response received", data: { ok: res.ok, status: res.status, statusText: res.statusText }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "B,D" }) }).catch(() => {
+      });
       if (!res.ok) {
         throw new Error("Failed to fetch user info");
       }
       return res.json();
     }).then((data) => {
+      fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:fetch_success", message: "User data received", data: { userData: data }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "B,D" }) }).catch(() => {
+      });
       setFetchedUser(data);
     }).catch((error) => {
+      fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:fetch_error", message: "Fetch error caught", data: { error: error.message, error_string: String(error) }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "B" }) }).catch(() => {
+      });
       console.warn("Failed to fetch user info:", error);
       setFetchedUser({ name: null, email: null, image: null });
     }).finally(() => {
@@ -194,6 +214,10 @@ function Header({
   const displayName = userName ?? fetchedUser?.name ?? void 0;
   const displayEmail = userEmail ?? fetchedUser?.email ?? void 0;
   const displayImage = userImage ?? fetchedUser?.image ?? void 0;
+  if (typeof window !== "undefined") {
+    fetch("http://127.0.0.1:7244/ingest/b343c56f-45dd-4bae-8d2d-662d6ff072a1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Header.tsx:display_values", message: "Final display values", data: { displayName, displayEmail, displayImage, fetchedUser, isLoadingUser }, timestamp: Date.now(), sessionId: "debug-session", hypothesisId: "C,E" }) }).catch(() => {
+    });
+  }
   const initials = getInitials(displayName, displayEmail);
   const handleAvatarClick = () => {
     if (onSignOut) {
