@@ -5,32 +5,17 @@ Shared design system and UI components for Walr AI Labs applications.
 ## Installation
 
 ```bash
-npm install github:walr-tech/labs-walr-ui#v2.0.0
+npm install github:walr-tech/labs-walr-ui#v1.1.0
 ```
 
 Or add to package.json:
 ```json
 {
   "dependencies": {
-    "@walr-labs/ui": "github:walr-tech/labs-walr-ui#v2.0.0"
+    "@walr-labs/ui": "github:walr-tech/labs-walr-ui#v1.1.0"
   }
 }
 ```
-
-The package will automatically build when installed from GitHub via the `prepare` script.
-
-## What's New in v2.0.0
-
-**BREAKING CHANGE:** The package no longer commits build artifacts (`dist/`) to Git. 
-Instead, it builds automatically when you install from GitHub. This happens transparently 
-via npm's `prepare` lifecycle hook.
-
-**Requirements:**
-- Node.js 18+ (already required by Next.js 14+)
-- npm/pnpm/yarn (any modern version)
-
-**Install time:** First install adds ~10-20 seconds for the build. Subsequent installs 
-use cached builds.
 
 ## Usage
 
@@ -136,7 +121,7 @@ pnpm install
 
 1. Make changes and commit
 2. Update version in package.json
-3. Tag the release: `git tag v2.x.x`
+3. Tag the release: `git tag v1.x.x`
 4. Push: `git push origin main --tags`
 5. Consumer apps update their dependency version
 
