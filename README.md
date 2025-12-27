@@ -1,127 +1,90 @@
-# @walr-labs/ui
+# @walr-labs/ui - ARCHIVED ⚠️
 
-Shared design system and UI components for Walr AI Labs applications.
+> **This repository has been archived and is no longer maintained.**
+> 
+> The UI package has been moved into the main platform monorepo.
 
-## Installation
+## New Location
 
-```bash
-npm install github:walr-tech/labs-walr-ui#v1.1.0
-```
+**Repository:** https://github.com/walr-tech/labs-walr-platform
 
-Or add to package.json:
-```json
-{
-  "dependencies": {
-    "@walr-labs/ui": "github:walr-tech/labs-walr-ui#v1.1.0"
-  }
-}
-```
+**Package location:** `packages/ui/`
 
-## Usage
+## For Consumers
 
-### Import Components
+The package is now published to **GitHub Packages** instead of git tags.
+
+### Installation
+
+1. **Create `.npmrc` in your project:**
+   ```
+   @walr-labs:registry=https://npm.pkg.github.com
+   ```
+
+2. **Set up GitHub token:**
+   ```bash
+   export GITHUB_TOKEN=your_token_here
+   ```
+   
+   Or add to `.npmrc` (don't commit!):
+   ```
+   //npm.pkg.github.com/:_authToken=YOUR_TOKEN_HERE
+   ```
+
+3. **Install via npm:**
+   ```bash
+   pnpm install @walr-labs/ui@^2.1.0
+   ```
+
+### Usage
+
+Usage remains the same:
 
 ```tsx
 import { Header, Button, Card, CardContent, cn } from '@walr-labs/ui'
 ```
 
-### Import Styles
-
-In your `globals.css`:
 ```css
-@import "tailwindcss";
 @import "@walr-labs/ui/styles/globals.css";
 ```
 
-### Available Components
+## Migration Guide
 
-| Component | Description |
-|-----------|-------------|
-| `Header` | Shared navigation header with logo and user avatar |
-| `BackNav` | Back navigation bar for lab apps (local dev navigation) |
-| `ThemeProvider` | Wrapper for next-themes ThemeProvider |
-| `ThemeToggle` | Theme toggle button (light/dark mode) |
-| `Button` | Styled button with variants (default, outline, ghost, destructive, secondary, link) |
-| `Card` | Card container with CardHeader, CardContent, CardFooter, CardTitle, CardDescription, CardAction |
-| `Avatar` | User avatar with image and fallback support (AvatarImage, AvatarFallback) |
-| `Badge` | Badge component with variants (default, secondary, destructive, outline) |
-| `Input` | Styled input field with focus states and validation support |
-| `Label` | Accessible label component (Radix UI based) |
-| `Select` | Full-featured select dropdown with SelectTrigger, SelectContent, SelectItem, SelectGroup, SelectLabel, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton, SelectValue |
+### For Lab Apps
 
-### Utilities
+1. Add `.npmrc` with GitHub Packages registry
+2. Update `package.json`:
+   ```json
+   {
+     "dependencies": {
+       "@walr-labs/ui": "^2.1.0"
+     }
+   }
+   ```
+3. Run `pnpm install`
 
-| Utility | Description |
-|---------|-------------|
-| `cn()` | Tailwind class merge utility (clsx + tailwind-merge) |
+### For Platform Development
 
-## Theme
-
-The package provides CSS variables for a dark-first theme:
-
-- Background: Near-black (`#09090b`)
-- Primary: Cyan (`#06b6d4`)
-- Cards: Zinc-900
-- Borders: Zinc-800
-
-## Development
+The platform now uses a monorepo structure:
 
 ```bash
-# Install dependencies
-npm install
-
-# Build the package
-npm run build
-
-# Watch mode
-npm run dev
-```
-
-## Local Development with Consumer Apps
-
-Use **yalc** to test changes locally before releasing. This copies built files (not symlinks) which works with Next.js Turbopack.
-
-### Setup (one-time)
-```bash
-npm install -g yalc
-```
-
-### Workflow
-```bash
-# 1. Build and publish to local yalc store
-cd labs-walr-ui
-pnpm run build
-yalc publish
-
-# 2. Add to consumer app
-cd ../labs-sample-pricing-assist  # or any consumer
-yalc add @walr-labs/ui
-
-# 3. Start dev servers
-pnpm run dev
-```
-
-### After Making UI Changes
-```bash
-cd labs-walr-ui
-pnpm run build && yalc push
-# Refresh browser to see changes
-```
-
-### Before Committing Consumer App
-```bash
-cd labs-sample-pricing-assist
-yalc remove @walr-labs/ui
+git clone https://github.com/walr-tech/labs-walr-platform.git
+cd labs-walr-platform
 pnpm install
+pnpm run dev:all  # Run shell + UI in watch mode
 ```
 
-> **Note:** Consumer apps have a husky pre-commit hook that blocks commits with yalc references.
+## Documentation
 
-## Releasing New Versions
+- [Platform README](https://github.com/walr-tech/labs-walr-platform)
+- [Architecture Overview](https://github.com/walr-tech/labs-walr-platform/blob/main/docs/ARCHITECTURE.md)
+- [Contributing Guide](https://github.com/walr-tech/labs-walr-platform/blob/main/docs/CONTRIBUTING.md)
 
-1. Make changes and commit
-2. Update version in package.json
-3. Tag the release: `git tag v1.x.x`
-4. Push: `git push origin main --tags`
-5. Consumer apps update their dependency version
+## Questions?
 
+Please open issues in the new repository: https://github.com/walr-tech/labs-walr-platform/issues
+
+---
+
+**Archived:** December 27, 2025  
+**Reason:** Migrated to monorepo for better development workflow
